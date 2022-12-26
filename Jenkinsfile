@@ -14,12 +14,17 @@ pipeline{
             }
         }
         stage("docker build"){
-            sh "docker build . -t ashokkumarvnt/myweps:v1"
+            steps{
+                 sh "docker build . -t ashokkumarvnt/myweps:v1"
+            }
+           
         }
             
         stage("dockerpush"){
-            sh "docker login -u ashokkumarvnt -p Pappu@360"
-            sh "docker push ashokkumarvnt/myweps:v1"
+            steps{
+                sh "docker login -u ashokkumarvnt -p Pappu@360"
+                sh "docker push ashokkumarvnt/myweps:v1"
+            }
         }
         
     }
