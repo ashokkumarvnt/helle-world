@@ -21,7 +21,7 @@ pipeline{
                   ssh ec2-user@3.111.40.212 /opt/bin/shutdown.sh/
                   ssh ec2-user@3.111.40.212 /opt/bin/startup.sh/
                 """    
-
+                }
             }
         }
     }
