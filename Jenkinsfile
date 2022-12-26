@@ -13,12 +13,14 @@ pipeline{
                 sh "mv target/*.war target/myweb.war"
             }
         }
-        stage("deploy-to-tomcat"){
-            steps{
-                sshagent(['ec2-user']) {
-                sh "scp -o StrictHostKeyChecking=no target/myweb.war ec2-user@3.111.40.212:/opt/tomcat8/webapps/"   
-                }
-            }
+        stage("docker build"){
+            sh "docker build . -t ashokkumarvnt/myweps:v1"
         }
+            
+        stage("dockerpush"){
+            sh "docker login -u ashokkumarvnt -p Pappu@360"
+            sh "docker push ashokkumarvnt/myweps:v1"
+        }
+        
     }
 }
