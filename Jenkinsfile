@@ -1,31 +1,26 @@
 pipeline{
     agent any
     stages{
-        stage("git checkout"){
+       stage('GetCode'){
             steps{
-                git branch: 'main', url: 'https://github.com/ashokkumarvnt/helle-world.git'
+                git 'https://github.com/ashokkumarvnt/helle-world.git'
             }
-        
-        }
-        stage("maven build"){
+         }        
+       stage('Build'){
             steps{
-                sh "mvn clean package"
-                sh "mv target/*.war target/myweb.war"
+                sh 'mvn clean package'
             }
+         }
+        stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.0';
+        steps{
+        withSonarQubeEnv('sonar-qube') { 
+        // If you have configured more than one global server connection, you can specify its name
+//      sh "${scannerHome}/bin/sonar-scanner"
+        sh "mvn sonar:sonar"
+    }
         }
-        stage("docker build"){
-            steps{
-                 sh "docker build . -t ashokkumarvnt/myweps:v1"
-            }
-           
         }
-            
-        stage("dockerpush"){
-            steps{
-                sh "docker login -u ashokkumarvnt -p Pappu@360"
-                sh "docker push ashokkumarvnt/myweps:v1"
-            }
-        }
-        
+       
     }
 }
